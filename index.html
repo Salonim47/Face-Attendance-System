@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Face Recognition Attendance Portal</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="bg-gradient-glow bg-glow-1"></div>
+    <div class="bg-gradient-glow bg-glow-2"></div>
+
+    <div class="app-wrapper">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="brand">
+                <i class="fa-solid fa-face-viewfinder brand-icon"></i>
+                <div class="brand-info">
+                    <h1>BIOMETRIC ATTENDANCE PORTAL</h1>
+                    <span class="subtitle">OPENCV COGNITIVE RECOGNITION ENGINE</span>
+                </div>
+            </div>
+            <div class="system-status">
+                <div class="status-node" id="statusTrained">
+                    <span class="status-dot"></span>
+                    <span class="status-label">TRAINER: LOADING...</span>
+                </div>
+                <div class="status-node" id="statusCamera">
+                    <span class="status-dot"></span>
+                    <span class="status-label">CAMERA: OFFLINE</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Workspace -->
+        <main class="dashboard-grid">
+            <!-- Left Panel: Viewfinder -->
+            <section class="viewfinder-section">
+                <div class="viewport-card">
+                    <div class="card-title-bar">
+                        <h3><i class="fa-solid fa-video"></i> BIOMETRIC VIEWPORT</h3>
+                        <span class="live-tag pulsating"><span class="dot"></span> LIVE FEED</span>
+                    </div>
+                    <div class="video-container">
+                        <img src="http://127.0.0.1:8000/video_feed" id="videoFeed" alt="Biometric Webcam Stream">
+                    </div>
+                </div>
+            </section>
+
+            <!-- Right Panel: Management Side Deck -->
+            <section class="management-section">
+                
+                <!-- Card 1: Face Registration -->
+                <div class="hud-card">
+                    <h3><i class="fa-solid fa-user-plus"></i> REGISTER PROFILE</h3>
+                    <div class="input-group">
+                        <label for="userNameInput">Full Name</label>
+                        <input type="text" id="userNameInput" placeholder="Enter name (e.g. Saloni)..." autocomplete="off">
+                    </div>
+                    <button class="action-btn register-btn" id="registerBtn">
+                        <i class="fa-solid fa-camera-rotate"></i> CAPTURE FACE SAMPLES
+                    </button>
+                    
+                    <!-- Progress meter, shown during sample capture -->
+                    <div class="progress-container" id="progressContainer" style="display: none;">
+                        <div class="progress-header">
+                            <span id="progressText">Scanning: 0 / 30 Samples</span>
+                            <span class="progress-percent" id="progressPercent">0%</span>
+                        </div>
+                        <div class="progress-bar-track">
+                            <div class="progress-bar-fill" id="progressBarFill" style="width: 0%;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 2: AI Training -->
+                <div class="hud-card">
+                    <h3><i class="fa-solid fa-brain"></i> MODEL TRAINING</h3>
+                    <p class="description-text">Train the Local Binary Patterns (LBPH) recognizer on the collected dataset of cropped faces.</p>
+                    <button class="action-btn train-btn" id="trainBtn">
+                        <i class="fa-solid fa-microchip"></i> TRAIN AI RECOGNIZER
+                    </button>
+                </div>
+
+                <!-- Card 3: Dashboard Console Logs -->
+                <div class="hud-card log-card">
+                    <h3><i class="fa-solid fa-terminal"></i> TELEMETRY LOGS</h3>
+                    <div class="console-logs" id="consoleLogs">
+                        <div class="log-line sys-log">Portal Dashboard loaded. Connecting to FastAPI daemon...</div>
+                        <div class="log-line prompt-log">Ready for profile scans or recognition logs.</div>
+                    </div>
+                </div>
+
+            </section>
+        </main>
+
+        <!-- Bottom Panel: Attendance Logs Table -->
+        <section class="logs-section">
+            <div class="logs-card">
+                <div class="card-title-bar">
+                    <h3><i class="fa-solid fa-clipboard-user"></i> TODAY'S ATTENDANCE LOGS</h3>
+                    <div class="logs-actions">
+                        <button class="hud-button" id="refreshBtn"><i class="fa-solid fa-arrows-rotate"></i> Refresh</button>
+                        <button class="hud-button primary-btn" id="exportBtn"><i class="fa-solid fa-file-csv"></i> Export Sheet (CSV)</button>
+                    </div>
+                </div>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>NAME</th>
+                                <th>DATE</th>
+                                <th>TIMESTAMP</th>
+                                <th>STATUS</th>
+                            </tr>
+                        </thead>
+                        <tbody id="attendanceTableBody">
+                            <tr>
+                                <td colspan="5" class="table-empty">Retrieving logs from backend...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
